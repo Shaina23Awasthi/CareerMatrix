@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="mb-4">
+        <a href="{{ url_for('jobs') }}" class="btn btn-outline-secondary btn-sm">
+            <i class="fa-solid fa-arrow-left me-1"></i> Back to Jobs
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-lg mb-4 border-primary">
+                <div class="card-body p-5">
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div>
+                            <h2 class="fw-bold mb-1">{{ job.title }}</h2>
+                            <h5 class="text-primary"><i class="fa-regular fa-building me-2"></i>{{ job.organization }}</h5>
+                        </div>
+                        <div>
+                            <span class="badge {% if job.job_type == 'Government' %}bg-info{% else %}bg-secondary{% endif %} bg-opacity-25 text-light fs-6 px-3 py-2 border border-secondary">{{ job.job_type }}</span>
+                        </div>
+                    </div>
+
+                    <hr class="border-secondary mb-4">
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            <h6 class="text-muted text-uppercase small fw-bold mb-2">Location</h6>
+                            <p class="fs-5"><i class="fa-solid fa-location-dot me-2 text-danger"></i>{{ job.location }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted text-uppercase small fw-bold mb-2">Salary Range</h6>
+                            <p class="fs-5"><i class="fa-solid fa-money-bill-wave me-2 text-success"></i>{{ job.salary_range or 'Not specified' }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted text-uppercase small fw-bold mb-2">Education Required</h6>
+                            <p class="fs-5"><i class="fa-solid fa-graduation-cap me-2 text-warning"></i>{{ job.education_required }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-muted text-uppercase small fw-bold mb-2">Status / Deadline</h6>
+                            {% if job.status == 'Active' %}
+                            <p class="fs-5 text-success"><i class="fa-solid fa-circle-check me-2"></i>Active</p>
+                            {% elif job.status == 'Upcoming' %}
+                            <p class="fs-5 text-warning"><i class="fa-solid fa-clock me-2"></i>Hurry! Closing soon</p>
+                            {% else %}
+                            <p class="fs-5 text-danger"><i class="fa-solid fa-circle-xmark me-2"></i>Expired</p>
+                            {% endif %}
+                            {% if job.last_date %}
+                            <p class="small text-muted mt-1">Apply by: {{ job.last_date.strftime('%d %B %Y') }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="mt-5 p-4 rounded bg-dark border border-secondary border-opacity-50">
+                        <h5 class="fw-bold mb-3"><i class="fa-solid fa-circle-info me-2 text-primary"></i>Application Details</h5>
+                        <p class="text-muted mb-4">This is an opportunity fetched from our extensive database of careers to help match you with your ideal path. If you believe your profile satisfies the mentioned criteria, you can proceed to the official application portal using the link below.</p>
+                        
+                        <a href="{{ job.application_link }}" class="btn btn-primary px-4 py-2" target="_blank">
+                            <i class="fa-solid fa-paper-plane me-2"></i> Apply on Official Website
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="card mb-4 border-warning">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold"><i class="fa-solid fa-lightbulb text-warning me-2"></i>Pro Tip</h5>
+                    <p class="card-text text-muted small mt-3">Tailoring your resume to precisely match the education and skill requirements listed here significantly increases your chances of getting shortlisted!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

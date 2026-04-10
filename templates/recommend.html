@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <!-- Input Form -->
+        <div class="col-lg-5 mb-5 mb-lg-0">
+            <h2 class="fw-bold mb-4">Get Student AI Recommendations</h2>
+            <p class="text-muted mb-4">Tell us a bit about yourself, and our intelligent rule-based engine will suggest the best career paths and courses for you.</p>
+
+            <div class="card shadow-lg border-primary">
+                <div class="card-body p-4">
+                    <form method="POST" action="{{ url_for('recommend') }}">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required placeholder="e.g. John Doe">
+                        </div>
+                        <div class="mb-3">
+                            <label for="education_level" class="form-label">Current Education Level</label>
+                            <select class="form-select" id="education_level" name="education_level" required>
+                                <option value="" selected disabled>Select your level...</option>
+                                <option value="10th Pass">10th Pass</option>
+                                <option value="12th Pass">12th Pass</option>
+                                <option value="Diploma">Diploma</option>
+                                <option value="Graduate">Graduate</option>
+                                <option value="Postgraduate">Postgraduate</option>
+                                <option value="PhD">PhD</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="interests" class="form-label">Interests & Skills</label>
+                            <textarea class="form-control" id="interests" name="interests" rows="3" required placeholder="e.g. Tech, coding, biology, business, management..."></textarea>
+                            <div class="form-text text-muted">Keywords are important here (e.g. 'tech', 'business', 'science')</div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="location" class="form-label">Preferred Location</label>
+                            <select class="form-select" id="location" name="location" required>
+                                <option value="" selected disabled>Select your location...</option>
+                                <option value="All India">All India</option>
+                                <option value="Bangalore">Bangalore</option>
+                                <option value="Chandigarh">Chandigarh</option>
+                                <option value="Chennai">Chennai</option>
+                                <option value="Hyderabad">Hyderabad</option>
+                                <option value="Pune">Pune</option>
+                                <option value="Mumbai">Mumbai</option>
+                                <option value="New Delhi">New Delhi</option>
+                                <option value="Kolkata">Kolkata</option>
+                                <option value="Ahmedabad">Ahmedabad</option>
+                                <option value="Jaipur">Jaipur</option>
+                                <option value="Lucknow">Lucknow</option>
+                                <option value="Noida">Noida / Gurugram</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 py-2 fw-bold text-uppercase tracking-wider">
+                            <i class="fa-solid fa-wand-magic-sparkles me-2"></i> Generate Recommendations
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output / Results -->
+        <div class="col-lg-6 offset-lg-1">
+            {% if request.method == 'POST' %}
+            <div class="h-100 d-flex flex-column">
+                <div class="alert alert-success bg-success bg-opacity-10 border-success mb-4" role="alert">
+                    <h4 class="alert-heading fw-bold mb-2">Analysis Complete!</h4>
+                    <p class="mb-0">Here are the tailored recommendations for <strong>{{ name }}</strong> based on your profile.</p>
+                </div>
+
+                <div class="row flex-grow-1 g-4">
+                    <div class="col-md-6">
+                        <div class="card h-100 border-info">
+                            <div class="card-header bg-info bg-opacity-10 border-info text-info fw-bold py-3">
+                                <i class="fa-solid fa-briefcase me-2"></i> Recommended Careers
+                            </div>
+                            <ul class="list-group list-group-flush bg-transparent">
+                                {% for career in careers %}
+                                <li class="list-group-item bg-transparent text-light border-secondary"><i class="fa-solid fa-check text-success me-2"></i> {{ career }}</li>
+                                {% else %}
+                                <li class="list-group-item bg-transparent text-muted">No specific careers found.</li>
+                                {% endfor %}
+                            </ul>
+                            <div class="card-footer bg-transparent border-0 text-center mt-auto">
+                                <a href="{{ url_for('jobs') }}" class="btn btn-sm btn-outline-info">Search These Jobs</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card h-100 border-warning">
+                            <div class="card-header bg-warning bg-opacity-10 border-warning text-warning fw-bold py-3">
+                                <i class="fa-solid fa-book-open me-2"></i> Recommended Courses
+                            </div>
+                            <ul class="list-group list-group-flush bg-transparent">
+                                {% for course in courses %}
+                                <li class="list-group-item bg-transparent text-light border-secondary"><i class="fa-solid fa-graduation-cap text-warning me-2"></i> {{ course }}</li>
+                                {% else %}
+                                <li class="list-group-item bg-transparent text-muted">No specific courses found.</li>
+                                {% endfor %}
+                            </ul>
+                            <div class="card-footer bg-transparent border-0 text-center mt-auto">
+                                <a href="{{ url_for('colleges') }}" class="btn btn-sm btn-outline-warning">Search These Courses</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="h-100 d-flex align-items-center justify-content-center text-center p-5 card border-secondary border-dashed" style="border-style: dashed;">
+                <div>
+                    <i class="fa-solid fa-robot fa-4x text-muted mb-4 opacity-50"></i>
+                    <h4 class="text-muted">Awaiting Input...</h4>
+                    <p class="text-muted small">Fill out the form to generate your personal recommendations.</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

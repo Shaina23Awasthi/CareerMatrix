@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto text-center">
+            <h2 class="fw-bold mb-3">Explore Jobs</h2>
+            <p class="text-muted">Discover private and government opportunities suited to your skills.</p>
+        </div>
+    </div>
+
+    <!-- Search Filters -->
+    <div class="card mb-5">
+        <div class="card-body p-4">
+            <form method="GET" action="{{ url_for('jobs') }}" class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label for="education" class="form-label text-muted small">Education Level</label>
+                    <select class="form-select" id="education" name="education">
+                        <option value="">Select Level...</option>
+                        <option value="10th" {% if request.args.get('education') == '10th' %}selected{% endif %}>10th Pass</option>
+                        <option value="12th" {% if request.args.get('education') == '12th' %}selected{% endif %}>12th Pass</option>
+                        <option value="Diploma" {% if request.args.get('education') == 'Diploma' %}selected{% endif %}>Diploma</option>
+                        <option value="Graduate" {% if request.args.get('education') == 'Graduate' %}selected{% endif %}>Graduate</option>
+                        <option value="BTech/BE" {% if request.args.get('education') == 'BTech/BE' %}selected{% endif %}>BTech / BE</option>
+                        <option value="BSc/BCA" {% if request.args.get('education') == 'BSc/BCA' %}selected{% endif %}>BSc / BCA</option>
+                        <option value="BCom/BBA" {% if request.args.get('education') == 'BCom/BBA' %}selected{% endif %}>BCom / BBA</option>
+                        <option value="BA" {% if request.args.get('education') == 'BA' %}selected{% endif %}>BA</option>
+                        <option value="Postgraduate" {% if request.args.get('education') == 'Postgraduate' %}selected{% endif %}>Postgraduate</option>
+                        <option value="MTech/ME" {% if request.args.get('education') == 'MTech/ME' %}selected{% endif %}>MTech / ME</option>
+                        <option value="MBA/MCA" {% if request.args.get('education') == 'MBA/MCA' %}selected{% endif %}>MBA / MCA</option>
+                        <option value="PhD" {% if request.args.get('education') == 'PhD' %}selected{% endif %}>PhD</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="job_type" class="form-label text-muted small">Job Type</label>
+                    <select class="form-select" id="job_type" name="job_type">
+                        <option value="">Any</option>
+                        <option value="Private" {% if request.args.get('job_type') == 'Private' %}selected{% endif %}>Private</option>
+                        <option value="Government" {% if request.args.get('job_type') == 'Government' %}selected{% endif %}>Government</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="location" class="form-label text-muted small">Location</label>
+                    <select class="form-select" id="location" name="location">
+                        <option value="">All Locations</option>
+                        <option value="All India" {% if request.args.get('location') == 'All India' %}selected{% endif %}>All India</option>
+                        <option value="Bangalore" {% if request.args.get('location') == 'Bangalore' %}selected{% endif %}>Bangalore</option>
+                        <option value="Chandigarh" {% if request.args.get('location') == 'Chandigarh' %}selected{% endif %}>Chandigarh</option>
+                        <option value="Chennai" {% if request.args.get('location') == 'Chennai' %}selected{% endif %}>Chennai</option>
+                        <option value="Hyderabad" {% if request.args.get('location') == 'Hyderabad' %}selected{% endif %}>Hyderabad</option>
+                        <option value="Pune" {% if request.args.get('location') == 'Pune' %}selected{% endif %}>Pune</option>
+                        <option value="Mumbai" {% if request.args.get('location') == 'Mumbai' %}selected{% endif %}>Mumbai</option>
+                        <option value="New Delhi" {% if request.args.get('location') == 'New Delhi' %}selected{% endif %}>New Delhi</option>
+                        <option value="Kolkata" {% if request.args.get('location') == 'Kolkata' %}selected{% endif %}>Kolkata</option>
+                        <option value="Ahmedabad" {% if request.args.get('location') == 'Ahmedabad' %}selected{% endif %}>Ahmedabad</option>
+                        <option value="Jaipur" {% if request.args.get('location') == 'Jaipur' %}selected{% endif %}>Jaipur</option>
+                        <option value="Lucknow" {% if request.args.get('location') == 'Lucknow' %}selected{% endif %}>Lucknow</option>
+                        <option value="Noida" {% if request.args.get('location') == 'Noida' %}selected{% endif %}>Noida / Gurugram</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="timeframe" class="form-label text-muted small">Status</label>
+                    <select class="form-select" id="timeframe" name="timeframe">
+                        <option value="">All</option>
+                        <option value="active" {% if request.args.get('timeframe') == 'active' %}selected{% endif %}>Active</option>
+                        <option value="upcoming" {% if request.args.get('timeframe') == 'upcoming' %}selected{% endif %}>Upcoming (30 days)</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fa-solid fa-magnifying-glass me-2"></i>Search
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Results Table -->
+    <div class="card overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover table-dark mb-0 align-middle">
+                <thead class="table-light text-dark">
+                    <tr>
+                        <th class="ps-4 py-3">Job Title</th>
+                        <th class="py-3">Organization</th>
+                        <th class="py-3">Location</th>
+                        <th class="py-3">Salary</th>
+                        <th class="py-3">Status</th>
+                        <th class="pe-4 py-3 text-end">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for job in jobs %}
+                    <tr>
+                        <td class="ps-4 py-3">
+                            <div class="fw-bold">{{ job.title }}</div>
+                            <small class="text-muted"><i class="fa-solid fa-graduation-cap me-1"></i> {{ job.education_required }}</small>
+                        </td>
+                        <td class="py-3">
+                            <div>{{ job.organization }}</div>
+                            <span class="badge {% if job.job_type == 'Government' %}bg-info{% else %}bg-secondary{% endif %} bg-opacity-25 text-light mt-1 border border-secondary">{{ job.job_type }}</span>
+                        </td>
+                        <td class="py-3">{{ job.location }}</td>
+                        <td class="py-3">{{ job.salary_range or 'Not specified' }}</td>
+                        <td class="py-3">
+                            {% if job.status == 'Active' %}
+                            <span class="badge badge-active rounded-pill px-3 py-2">
+                                <i class="fa-solid fa-circle-check me-1"></i> Active
+                            </span>
+                            {% elif job.status == 'Upcoming' %}
+                            <span class="badge badge-upcoming rounded-pill px-3 py-2">
+                                <i class="fa-solid fa-clock me-1"></i> Upcoming
+                            </span>
+                            {% else %}
+                            <span class="badge bg-danger rounded-pill px-3 py-2">Expired</span>
+                            {% endif %}
+                            
+                            {% if job.last_date %}
+                            <div class="small text-muted mt-1">Ends: {{ job.last_date.strftime('%d %b %Y') }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="pe-4 py-3 text-end">
+                            <a href="{{ url_for('job_detail', job_id=job.id) }}" class="btn btn-sm btn-outline-primary">View Details</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center py-5">
+                            <i class="fa-solid fa-magnifying-glass-minus fa-3x text-muted mb-3"></i>
+                            <h4>No jobs found matching your criteria.</h4>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

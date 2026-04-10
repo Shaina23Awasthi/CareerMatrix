@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <h1 class="hero-title">CareerMatrix</h1>
+        <p class="hero-subtitle">Smart Career & Opportunity Platform. Discover top colleges and promising career opportunities tailored just for you based on your interests and education.</p>
+        
+        <div class="d-flex justify-content-center gap-4 mt-5 flex-wrap home-cards">
+            <a href="{{ url_for('colleges') }}" class="card text-decoration-none shadow-sm" style="width: 18rem;">
+                <div class="card-body p-5">
+                    <i class="fa-solid fa-building-columns fa-2x mb-3 text-primary"></i>
+                    <h5 class="card-title fw-bold">Explore Colleges</h5>
+                    <p class="card-text text-muted">Find institutes matching your criteria and course preferences.</p>
+                </div>
+            </a>
+            
+            <a href="{{ url_for('jobs') }}" class="card text-decoration-none shadow-sm" style="width: 18rem;">
+                <div class="card-body p-5">
+                    <i class="fa-solid fa-briefcase fa-2x mb-3 text-primary"></i>
+                    <h5 class="card-title fw-bold">Explore Jobs</h5>
+                    <p class="card-text text-muted">Discover private and government sector job openings.</p>
+                </div>
+            </a>
+            
+            <a href="{{ url_for('recommend') }}" class="card text-decoration-none shadow-sm" style="width: 18rem;">
+                <div class="card-body p-5">
+                    <i class="fa-solid fa-lightbulb fa-2x mb-3 text-primary"></i>
+                    <h5 class="card-title fw-bold">AI Path Finder</h5>
+                    <p class="card-text text-muted">Get smart suggestions tailored to your unique profile.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

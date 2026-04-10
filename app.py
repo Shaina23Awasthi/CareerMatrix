@@ -12,8 +12,8 @@ app.secret_key = 'super_secret_key' # for flash messages
 
 db.init_app(app)
 
-with app.app_context():
-    db.create_all()
+#with app.app_context():
+    #db.create_all()
 
 @app.route('/')
 def index():
